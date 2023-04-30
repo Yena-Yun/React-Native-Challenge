@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, StatusBar, Image } from 'react-native';
+import { Text, View, StatusBar, Image } from 'react-native';
 import { Date, Icon, Const } from 'utils';
-import { COLOR } from 'styles/color';
 import { useWeather } from 'hooks/useWeather';
+import { COLOR } from 'styles/color';
+import { styles } from 'styles/AppStyle';
 
 export default function App() {
   const [weatherData, isLoading, error] = useWeather();
@@ -38,10 +39,10 @@ export default function App() {
         <Text style={styles.temp}>{temp}°</Text>
         <View style={styles.weatherWrap}>
           <Text style={styles.weather}>{weather}</Text>
-          <Image source={{ uri: weatherIconUrl }} style={styles.weatherIcon} />
+          <Image style={styles.weatherIcon} source={{ uri: weatherIconUrl }} />
         </View>
       </View>
-      <View style={{ flex: 2, margin: 24 }}>
+      <View style={styles.detailWrap}>
         <View style={styles.detailRow}>
           <Text>최고 {tempMax}°</Text>
           <Text>
@@ -63,53 +64,3 @@ export default function App() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLOR.primary,
-  },
-  statusbar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 24,
-  },
-  city: {
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  dates: {
-    flex: 1.2,
-    margin: 24,
-    borderBottomWidth: 3,
-  },
-  day: {
-    fontSize: 20,
-    fontWeight: '700',
-  },
-  main: {
-    flex: 3.5,
-    margin: 24,
-    borderBottomWidth: 3,
-  },
-  temp: {
-    fontSize: 100,
-    fontWeight: '700',
-  },
-  weatherWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  weather: {
-    fontSize: 20,
-  },
-  weatherIcon: {
-    width: 50,
-    height: 50,
-    marginTop: 8,
-  },
-  detailRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-});
