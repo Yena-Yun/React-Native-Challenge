@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": [
+      "es6",
+      "es2020"
+    ],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "strict": true,
+    "target": "esnext",
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "babel.config.js"
+  ],
+  "extends": "expo/tsconfig.base"
+}
