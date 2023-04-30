@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { axiosClient } from 'src/api/axiosClient';
-import { UNITS } from 'src/api/const';
+import { axiosClient } from 'api/axiosClient';
+import { UNITS } from 'api/const';
 import { useGeolocation } from './useGeolocation';
-import { WeatherType } from 'src/types/weatherType';
+import { WeatherType } from 'types/weatherType';
 
 const defaultWeatherData = {
   clouds: 0,

@@ -1,6 +1,6 @@
-import { axiosClient } from 'src/api/axiosClient';
-import { LIMIT } from 'src/api/const';
-import { Const } from 'src/utils';
+import { axiosClient } from 'api/axiosClient';
+import { LIMIT } from 'api/const';
+import { Const } from 'utils';
 
 export const useGeolocation = async (): Promise<{
   lat: number;
