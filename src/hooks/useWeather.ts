@@ -16,7 +16,13 @@ const defaultWeatherData = {
   wind: 0,
 };
 
-export const useWeather = () => {
+export const useWeather = ({
+  latitude,
+  longitude,
+}: {
+  latitude: number;
+  longitude: number;
+}) => {
   const [weatherData, setWeatherData] =
     useState<WeatherType>(defaultWeatherData);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,11 +30,11 @@ export const useWeather = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { lat, lon } = await useGeolocation();
+      // const { lat, lon } = await useGeolocation();
 
       try {
         const { data: weatherData } = await axiosClient.get(
-          `/data/2.5/weather?lat=${lat}&lon=${lon}&units=${UNITS}&appid=${process.env.API_KEY}`
+          `/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${UNITS}&appid=${process.env.API_KEY}`
         );
 
         console.log(weatherData);
