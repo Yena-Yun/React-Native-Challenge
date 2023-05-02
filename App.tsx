@@ -10,19 +10,59 @@ import {
 import { Date, Icon, Const } from 'utils';
 import { COLOR } from 'styles/color';
 import { useWeather } from 'hooks/useWeather';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as Location from 'expo-location';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 console.log('SCREEN_WIDTH: ' + SCREEN_WIDTH);
 
 export default function App() {
+  const [tempColor, setTempColor] = useState(styles.initialTemp);
+  const [geolocation, setGeolocation] = useState({ latitude: 0, longitude: 0 });
+  const [location, setLocation] = useState<Location.LocationGeocodedAddress>();
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const askLocation = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location was denied');
+      return;
+    }
+
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+
+    console.log(latitude, longitude);
+
+    setGeolocation({ latitude, longitude });
+
+    const location = await Location.reverseGeocodeAsync(
+      {
+        latitude,
+        longitude,
+      },
+      { useGoogleMaps: false }
+    );
+
+    console.log(location[0]);
+
+    setLocation(location[0]);
+  };
+
+  useEffect(() => {
+    askLocation();
+  }, []);
+
   const [
     { clouds, temp, tempMin, tempMax, weather, weatherIcon, rain, snow, wind },
     isLoading,
     error,
-  ] = useWeather();
-  const [tempColor, setTempColor] = useState(styles.initialTemp);
+  ] = useWeather(geolocation);
+
+  console.log(temp);
 
   const weatherIconUrl = `https://openweathermap.org/img/w/${weatherIcon}.png`;
 
@@ -38,7 +78,9 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.header}>
         {Icon.BARS_ICON}
-        <Text style={styles.city}>{Const.CITY_NAME}</Text>
+        <Text style={styles.city}>
+          {location?.region}, {location?.country}
+        </Text>
         {Icon.SEARCH_ICON}
       </View>
       <View style={styles.dates}>
